@@ -50,7 +50,8 @@ func Run(command string) types.CommandResult {
 	}
 
 	// достанем код и статус операции
-	st := strings.Split(string(stdout), "\n")
+	data := GetLastData()
+	st := strings.Split(data, "\n")
 	if len(st) < 6 {
 		result.Status = internal.ErrorSystem
 		logger.New("Error!!!", result.Status)
@@ -60,7 +61,7 @@ func Run(command string) types.CommandResult {
 	result.Code = strings.TrimSpace(st[0])
 	result.Status = strings.TrimSpace(st[5])
 	result.Cheque = GetLastCheque()
-	result.Data = GetLastData()
+	result.Data = data
 
 	fmt.Println(result.Cheque)
 
