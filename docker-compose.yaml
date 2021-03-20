@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  ### 
+  ipservice:
+    image: "i386/ubuntu"
+    container_name: ipservice
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ".data/arcus:/home/reg/arcus"
+    command: bash -c "
+      apt-get update &&
+      apt-get install tzdata &&
+      rm /etc/localtime &&
+      ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime &&
+      apt-get install libstdc++5 &&
+      cd /home/reg/arcus/ipservice &&
+      ./ipservice arcus_ip_service.conf &&
+      sleep 3153600000"
+    ports:
+      - 9301:9301
+      - 9302:9302
+  #
+  bank-terminal-arcus:
+    image: "ubuntu:latest"
+    container_name: bank-terminal-arcus
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ".data/arcus:/home/reg/arcus"
+      - ".bin:/mnt/app"
+    command: bash -c "
+      apt-get update &&
+      apt-get install tzdata &&
+      rm /etc/localtime &&
+      ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime &&
+      cd /mnt/app &&
+      ./bank-terminal-arcus"
+    ports:
+      - 8012:8012

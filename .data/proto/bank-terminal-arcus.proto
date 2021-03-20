@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = ".;microServiceBankTerminalArcus";
+
+service BankTerminalArcus {
+  rpc Run(RunRequest) returns (RunResponse) {}
+}
+
+message RunRequest {
+  string Command = 1;
+}
+
+message RunResponse {
+  string Body = 1;
+}
