@@ -22,6 +22,9 @@ services:
     ports:
       - 9301:9301
       - 9302:9302
+    networks:
+      n_bank_terminal_arcus:
+        ipv4_address: 10.3.0.100
   #
   bank-terminal-arcus:
     image: "ubuntu:latest"
@@ -41,3 +44,15 @@ services:
       ./bank-terminal-arcus"
     ports:
       - 8012:8012
+    networks:
+      n_bank_terminal_arcus:
+        ipv4_address: 10.3.0.101
+
+networks:
+  #
+  n_bank_terminal_arcus:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.3.0.0/24
