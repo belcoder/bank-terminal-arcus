@@ -115,7 +115,7 @@ func ScanLog(momentStart time.Time) {
 
 		// самый новый файл
 		fileLog := files[0]
-		logger.New("ScanLog", "лог", fileLog.Name())
+		// logger.New("ScanLog", "лог", fileLog.Name())
 
 		if (momentStart.Unix() - 5) > fileLog.ModTime().Unix() {
 			logger.New("ScanLog", "лог старше чем momentStart - 5сек", fileName, momentStart)
