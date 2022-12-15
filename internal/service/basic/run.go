@@ -20,11 +20,15 @@ import (
 
 func Run(command string) types.CommandResult {
 	//
+	internal.RunProcess = true
+
 	go ScanLog(time.Now())
 
 	defer func() {
 		internal.TerminalProcess = nil
+		internal.RunProcess = false
 	}()
+
 	//
 	result := types.CommandResult{}
 
@@ -78,17 +82,22 @@ func Run(command string) types.CommandResult {
 	return result
 }
 
+// обработанные файлы
+var fl = []string{}
+
 func ScanLog(momentStart time.Time) {
 	messages := []string{}
+	fileName := ""
 
 	for {
-		if internal.TerminalProcess == nil {
+		if !internal.RunProcess {
+			fl = append(fl, fileName)
 			return
 		}
 
 		time.Sleep(time.Duration(1) * time.Second)
 
-		// поиск последнего лога
+		// поиск текущего лога
 		files, err := ioutil.ReadDir(internal.PathArcus + "logs")
 		if err != nil {
 			logger.New("ScanLog", err.Error())
@@ -96,7 +105,8 @@ func ScanLog(momentStart time.Time) {
 		}
 
 		if len(files) == 0 {
-
+			logger.New("ScanLog", "логи отсутствуют")
+			return
 		}
 
 		sort.Slice(files, func(i, j int) bool {
@@ -105,6 +115,19 @@ func ScanLog(momentStart time.Time) {
 
 		// самый новый файл
 		fileLog := files[0]
+		logger.New("ScanLog", "лог", fileLog.Name())
+
+		if (momentStart.Unix() - 5) > fileLog.ModTime().Unix() {
+			logger.New("ScanLog", "лог старше чем momentStart - 5сек", fileName, momentStart)
+			return
+		}
+
+		fileName = fileLog.Name()
+
+		if contains.String(fl, fileName) {
+			logger.New("ScanLog", "лог уже обработан", fileName)
+			return
+		}
 
 		//
 		file, err := os.Open(internal.PathArcus + "logs/" + fileLog.Name())
