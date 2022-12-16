@@ -47,6 +47,23 @@ services:
     networks:
       n_bank_terminal_arcus:
         ipv4_address: 10.3.0.101
+  #
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    hostname: rabbitmq
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=belcoder
+      - RABBITMQ_DEFAULT_PASS=qwer1331
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      n_bank_terminal_arcus:
+        ipv4_address: 10.3.0.102
 
 networks:
   #
