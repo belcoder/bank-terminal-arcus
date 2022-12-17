@@ -2,6 +2,7 @@ package basic
 
 import (
 	"../../../internal"
+	"../../../internal/service/rabbit"
 	"../../../internal/types"
 	"../../../pkg/contains"
 	"../../../pkg/logger"
@@ -147,6 +148,7 @@ func ScanLog(momentStart time.Time) {
 				if !contains.String(messages, v[0]) {
 					messages = append(messages, v[0])
 					logger.New(v[1])
+					rabbit.PublishWithContext("TERMINAL_EVENTS", v[1])
 				}
 			}
 		}
