@@ -9,7 +9,7 @@ import (
 var AmqpConnection *amqp.Connection = nil
 var AmqpChanel *amqp.Channel = nil
 var Context context.Context
-var Queue map[string]amqp.Queue
+var Queue = map[string]amqp.Queue{}
 
 func Connect() bool {
 	conn, err := amqp.Dial("amqp://belcoder:qwer1331@10.3.0.102:5672")
