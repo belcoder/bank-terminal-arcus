@@ -9,6 +9,7 @@
 .data/arcus/output.dat
 .data/arcus/output.out
 .data/arcus/logs
+rabbitmq
 
 # Test binary, built with `go test -c`
 *.test
