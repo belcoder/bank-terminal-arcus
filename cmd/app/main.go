@@ -4,7 +4,6 @@ import (
 	"../../internal/delivery/rpc"
 	"../../internal/service/rabbit"
 	"context"
-	"log"
 	"os"
 	"time"
 )
@@ -33,10 +32,4 @@ func main() {
 		rabbit.PublishWithContext("TERMINAL_EVENTS", "TEST")
 	}()
 	rpc.StartServer(os.Getenv("RPC_SERVER_PORT"))
-}
-
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Panicf("%s: %s", msg, err)
-	}
 }

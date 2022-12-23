@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	time.Sleep(15 * time.Second)
+	time.Sleep(8 * time.Second)
 
 	data := `000
 ************0000
