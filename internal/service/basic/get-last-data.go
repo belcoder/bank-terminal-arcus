@@ -4,10 +4,11 @@ import (
 	"../../../internal"
 	"../../../pkg/logger"
 	"fmt"
-	"io/ioutil")
+	"io/ioutil"
+)
 
 func GetLastData() string {
-	data, err := ioutil.ReadFile(fmt.Sprintf("%soutput.out", internal.PathArcus))
+	data, err := ioutil.ReadFile(fmt.Sprintf("%soutput.dat", internal.PathArcus))
 	if err != nil {
 		logger.New("GetLastData", err.Error())
 		return ""

@@ -41,14 +41,15 @@ func Run(command string) types.CommandResult {
 
 	// удаляем файлы с результатами последней операции
 	_ = os.Remove(internal.PathArcus + "cheq.out")
-	_ = os.Remove(internal.PathArcus + "output.out")
+	_ = os.Remove(internal.PathArcus + "output.dat")
 
 	// сформируем команду на оплату
-	if os.Getenv("MODE") == "prod" {
-		command = "./commandLineTool " + command
-	} else {
-		command = "./terminal-emulation " + command
-	}
+	command = "./commandLineTool " + command
+	//if os.Getenv("MODE") == "prod" {
+	//	command = "./commandLineTool " + command
+	//} else {
+	//	command = "./terminal-emulation " + command
+	//}
 
 	logger.New("Run: ", command)
 
@@ -74,7 +75,7 @@ func Run(command string) types.CommandResult {
 	}
 
 	result.Code = strings.TrimSpace(st[0])
-	result.Status = strings.TrimSpace(st[5])
+	result.Status = strings.TrimSpace(st[18])
 	result.Cheque = GetLastCheque()
 	result.Data = data
 
